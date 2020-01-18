@@ -1,0 +1,1 @@
+tags = ['sky','animals','city']
