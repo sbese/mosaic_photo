@@ -1,1 +1,1 @@
-tags = ['sky','animals','city']
+tags = ['sky', 'animals', 'city']

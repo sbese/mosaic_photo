@@ -4,13 +4,13 @@ import requests
 from PIL import Image
 from IPython import display
 import os
-from flikr_api_keys import api_key,api_secret
+from flikr_api_keys import api_key, api_secret
 
 flickr = flickrapi.FlickrAPI(api_key, api_secret)
 try:
     os.mkdir('flickr_photo')
 except OSError:
-    pass 
+    pass
 
 photos = flickr.photos.search(
     page=random.randint(0, 100),
@@ -23,15 +23,16 @@ photos = flickr.photos.search(
     format='parsed-json')
 print(photos)
 
-for i,photo in enumerate(photos['photos']['photo']):
+for i, photo in enumerate(photos['photos']['photo']):
     print(i)
-    finded_photo = flickr.photos.getSizes(photo_id=photo['id'], format='parsed-json')['sizes']['size'][0]
+    finded_photo = flickr.photos.getSizes(
+        photo_id=photo['id'], format='parsed-json')['sizes']['size'][0]
     if finded_photo['label'] == "Square":
         print(finded_photo['source'])
         img = requests.get(finded_photo['source'])
         img_file = open(f'flickr_photo/{i}.jpg', 'wb')
         img_file.write(img.content)
-        img_file.close() 
+        img_file.close()
 print("ok")
 
 for i in range(100):
@@ -49,9 +50,9 @@ for i in range(100):
 
     cnt = w * h
     print(rr//cnt, gg//cnt, bb//cnt)
-    awg_color=Image.new('RGB', (150,75), color=(rr//cnt, gg//cnt, bb//cnt))
-    awg_color.paste(image,(0,0,75,75))
+    awg_color = Image.new('RGB', (150, 75), color=(rr//cnt, gg//cnt, bb//cnt))
+    awg_color.paste(image, (0, 0, 75, 75))
     awg_color.save(f'flickr_photo/awg_{i}.jpg', "JPEG")
     image = display.Image(f'flickr_photo/{i}.jpg')
-    awg_color= display.Image(f'flickr_photo/awg_{i}.jpg')
+    awg_color = display.Image(f'flickr_photo/awg_{i}.jpg')
     display.display_jpeg(awg_color)
